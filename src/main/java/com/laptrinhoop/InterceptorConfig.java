@@ -9,10 +9,9 @@ import com.laptrinhoop.interceptor.CommonInterceptor;
 
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
-	
-	
+
 	@Autowired
-	private CommonInterceptor share;
+	CommonInterceptor share;
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

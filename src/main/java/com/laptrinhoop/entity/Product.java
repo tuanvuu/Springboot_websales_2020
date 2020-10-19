@@ -32,6 +32,16 @@ public class Product {
 	Date productDate = new Date();
 	Boolean available = true;
 	String description;
+	Integer viewCount = 0;
+	
+
+	public Integer getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(Integer viewCount) {
+		this.viewCount = viewCount;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "categoryId")

@@ -11,36 +11,35 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.laptrinhoop.dao.IGeneralDAO;
+
 @Transactional
 public class GeneraDAO<L, K> implements IGeneralDAO<L, K> {
 
 	@Autowired
-	SessionFactory factory;
+	protected SessionFactory factory;
 
 	@Override
 	public L create(L entity) {
-
-		return null;
+		Session session = factory.getCurrentSession();
+		session.save(entity);
+		return entity;
 	}
 
 	@Override
 	public void update(L entity) {
-		// TODO Auto-generated method stub
-
+		Session session = factory.getCurrentSession();
+		session.update(entity);
 	}
 
 	@Override
-	public L delete(@SuppressWarnings("unchecked") K... ids) {
-
-		return null;
+	public void delete(@SuppressWarnings("unchecked") K... ids) {
+		Session session = factory.getCurrentSession();
+		for (K id : ids) {
+			L entity = this.findById(id);
+			session.delete(entity);
+		}
 	}
 
-	/**
-	 * Truy vấn một thực thể từ CSDL
-	 * 
-	 * @param id là mã của thể cần tìm
-	 * @return thực thể được truy vấn hoặc null nếu thực thể không tồn tại
-	 */
 
 	@Override
 	public L findById(K id) {
@@ -57,8 +56,11 @@ public class GeneraDAO<L, K> implements IGeneralDAO<L, K> {
 	 */
 	@SuppressWarnings({ "unchecked" })
 	private Class<L> getEntityClass() {
+		// getClas là lớp hiện tại , sẽ lấy SupperClass ở mức tổng quát 
+		// nó sẽ cho ta một cái mảng với 2 kiểu trả về <thực thể,khóa>
+		// nó sẽ lấy phần tử đầu tiên trong mảng là thực thể
 		ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
-		return (Class<L>) type.getActualTypeArguments()[0];
+		return  (Class<L>) type.getActualTypeArguments()[0];
 	}
 
 	@Override
@@ -69,5 +71,36 @@ public class GeneraDAO<L, K> implements IGeneralDAO<L, K> {
 		List<L> entity = query.getResultList();
 		return entity;
 	}
+
+	@Override
+	public <E> List<E> getResultList(String hql, Object... mangParam) {			
+		return this.getResultPageOrPagram(hql,0,0,mangParam);
+	}
+	
+	@Override
+	public <E> List<E> getResultListParam(String hql, Object...mangParam) {	
+		return this.getResultPageOrPagram(hql, 0, 0, mangParam);
+	}
+
+	@Override
+	public <E> List<E> getResultPageOrPagram(String hql, int page, int size, Object...mangParam) {
+		Session session = factory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		TypedQuery<E> query =  session.createQuery(hql);
+		// size > 0 mới phân trang
+		if(size >0)
+		{
+			query.setFirstResult(page*size);
+			query.setMaxResults(size);
+		}
+		for(int i=0;i<mangParam.length;i++)
+		{
+			query.setParameter(i, mangParam[i]);
+		}
+		List<E> list = query.getResultList();
+		return list;
+	}
+
+
 
 }
