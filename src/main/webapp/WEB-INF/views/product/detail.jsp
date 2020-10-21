@@ -42,9 +42,9 @@
 			</c:forEach>
 		</div>
 	</div>
-	<%-- <div id="tab2" class="tab-pane fade">
+	<div id="tab2" class="tab-pane fade">
 		<div>
-			<c:forEach var="p" items="${favo}">
+			<c:forEach var="p" items="${like}">
 				<a href="/product/detail/${p.id}"> <img class="thumb-img"
 					src="/static/images/products/${p.image}">
 				</a>
@@ -53,12 +53,12 @@
 	</div>
 	<div id="tab3" class="tab-pane fade">
 		<div>
-			<c:forEach var="p" items="${viewed}">
+			<c:forEach var="p" items="${daXem}">
 				<a href="/product/detail/${p.id}"> <img class="thumb-img"
 					src="/static/images/products/${p.image}">
 				</a>
 			</c:forEach>
 		</div>
-	</div> --%>
+	</div>
 </div>
 

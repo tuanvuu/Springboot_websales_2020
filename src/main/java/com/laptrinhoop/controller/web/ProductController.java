@@ -2,8 +2,6 @@ package com.laptrinhoop.controller.web;
 
 import java.util.List;
 
-import javax.servlet.http.Cookie;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.laptrinhoop.dao.IProductDAO;
 import com.laptrinhoop.entity.Category;
 import com.laptrinhoop.entity.Product;
 import com.laptrinhoop.service.ICategoryService;
@@ -23,6 +22,8 @@ public class ProductController {
 
 	@Autowired
 	private ICategoryService service;
+	@Autowired
+	private IProductDAO dao;
 
 	@Autowired
 	private IProductService serviceProduct;
@@ -49,32 +50,43 @@ public class ProductController {
 
 	@RequestMapping("/product/detail/{id}")
 	public String detail(@PathVariable("id") Integer id, Model model) {
+		// chức năng đã xem
+		List<Product> listDaXem = serviceProduct.getViewProduct("daXem", id.toString());
+		model.addAttribute("daXem", listDaXem);
+
+		// chức năng yêu thích
+		List<Product> listFaVo = serviceProduct.getFaVoProduct("like", id.toString());
+		model.addAttribute("like", listFaVo);
+
+		// Single detai chi tiet san pham
 		Product p = serviceProduct.findById(id);
+		p.setViewCount(p.getViewCount() + 1); // set so lượt xem
+		dao.update(p);
 		model.addAttribute("prod", p);
+
+		// list sp cùng loại
 		model.addAttribute("list", serviceProduct.findAllProductByCategory(p.getCategory().getId()));
 		return "product/detail";
+
 	}
 
 	@ResponseBody
-	@RequestMapping("/product/add-to-like/{id}")
-	public boolean addProductLike(@PathVariable("id") Integer id, Model model) {
-		Cookie cookieLike = cookieService.read("like"); // lấy cookie từ client lên với tên like
-		String value = id.toString();
-		// kiểm tra cookie nếu có tên đó
-		// có là do trc đây họ có thêm rồi, bây giờ họ thêm tiếp
-		if (cookieLike != null) {
-			value = cookieLike.getValue(); // lấy giá trị của cookie và gán vào biến
-			// để kiểm tra trong giá trị có trùng hay không
-			if (!value.contains(id.toString())) {
-				value += "," + id.toString();
-			} else {
-				return false;
-			}
-
+	@RequestMapping("/product/favorite/{id}")
+	public String[] favorite(@PathVariable("id") String id) {
+		String ids = cookieService.getCookieValue("like", id);
+		if (!ids.contains(id)) {
+			ids += "," + id;
 		}
-		// xong tạo một cookie mới vừa được gán thêm vô một id sp
-		cookieService.create("like", value, 15);
-		return true;
+		cookieService.create("like", ids, 15);
+		return ids.split(",");
 	}
+
+	@RequestMapping("/product/list-by-hot/{key}")
+	public String listByHot(@PathVariable("key") String key, Model model) {
+		List<Product> listP = serviceProduct.findByHot(key);
+		model.addAttribute("list", listP);
+		return "product/list";
+	}
+
 
 }

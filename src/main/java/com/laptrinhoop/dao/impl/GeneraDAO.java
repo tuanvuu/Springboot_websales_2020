@@ -49,11 +49,7 @@ public class GeneraDAO<L, K> implements IGeneralDAO<L, K> {
 		return entity;
 	}
 
-	/**
-	 * Lấy kiểu của tham số generic đầu tiên (E) của EShopDAO<E, K>
-	 * 
-	 * @return là kiểu của E
-	 */
+
 	@SuppressWarnings({ "unchecked" })
 	private Class<L> getEntityClass() {
 		// getClas là lớp hiện tại , sẽ lấy SupperClass ở mức tổng quát 

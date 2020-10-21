@@ -6,10 +6,11 @@
 <tiles-definitions>
 
 	<!-- User Layout -->
-	<definition name="user.definition" template="/WEB-INF/views/layout.jsp">
+	<definition name="user.definition" template="/WEB-INF/views/index.jsp">
 		<put-attribute name="head" value="/WEB-INF/views/layout/head.jsp" />
 		<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/views/layout/menu.jsp" />
+		<put-attribute name="slide" value="/WEB-INF/views/layout/slide.jsp" />
 		<put-attribute name="body" value="" />
 		<put-attribute name="aside" value="/WEB-INF/views/layout/aside.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
@@ -19,7 +20,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
 	<!-- User View Without Layout-->
-	<definition name="no-layout/*/*" template="/WEB-INF/views/no-layout.jsp">
+	<definition name="non-layout/*/*" template="/WEB-INF/views/non-layout.jsp">
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
 

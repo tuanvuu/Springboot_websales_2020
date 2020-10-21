@@ -29,20 +29,40 @@ public class CookieService implements ICookieService {
 		return cookie;
 	}
 
-	@Override
-	public Cookie read(String name) {
-		// đọc cookie từ client lên thông qua req
+//	@Override
+//	public Cookie read(String name) {
+//		// đọc cookie từ client lên thông qua req
+//		Cookie[] cookies = request.getCookies();
+//		if (cookies != null) {
+//			for (Cookie cookie : cookies) {
+//				if (cookie.getName().equalsIgnoreCase(name)) {
+//					String coverToString = new String(Base64.getDecoder().decode(cookie.getValue()));
+//					cookie.setValue(coverToString);
+//					return cookie;
+//				}
+//			}
+//		}
+//		return null;
+//	}
+
+	/**
+	 * Đọc và giải mã cookie
+	 * 
+	 * @param name         tên cookie cần đọc
+	 * @param defaultValue giá trị mặc định
+	 * @return giá trị đã giải mã cookie nếu tồn tại hoặc defaultValue nếu không tồn
+	 *         tại
+	 */
+	public String getCookieValue(String name, String defaultValue) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equalsIgnoreCase(name)) {
-					String coverToString = new String(Base64.getDecoder().decode(cookie.getValue()));
-					cookie.setValue(coverToString);
-					return cookie;
+					return this.decode(cookie.getValue());
 				}
 			}
 		}
-		return null;
+		return defaultValue;
 	}
 
 	@Override
@@ -50,5 +70,17 @@ public class CookieService implements ICookieService {
 		this.create(name, "", 0);
 
 	}
+
+	/**
+	 * Giải mã chuỗi được mã hóa dạng Base64
+	 * 
+	 * @param encodedText là chuỗi mã hóa
+	 * @return chuỗi đã giải mã
+	 */
+	public String decode(String encodedText) {
+		return new String(Base64.getDecoder().decode(encodedText));
+	}
+
+
 
 }

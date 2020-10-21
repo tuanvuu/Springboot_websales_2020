@@ -1,15 +1,11 @@
 $(document).ready(function() {
-	$(".btn-like").click(function() {
-		var id = $(this).closest("div").attr("data-id");
+	$(".btn-like").click(function(){
+		var id = $(this).parents("[data-pid]").attr("data-pid")
 		$.ajax({
-			url : "/product/add-to-like/" + id,
-			success : function(response) {
-				if (response) {
-					alert("Đã thêm vào thành công")
-				} else {
-					alert("Đã có sẵn")
-				}
+			url:"/product/favorite/" + id,
+			success: function(resp){
+				alert("Đã thêm vào danh sách sản phẩm yêu thích của bạn");
 			}
 		})
-	})
+	});
 });
