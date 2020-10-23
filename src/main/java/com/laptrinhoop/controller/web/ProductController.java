@@ -15,6 +15,8 @@ import com.laptrinhoop.entity.Category;
 import com.laptrinhoop.entity.Product;
 import com.laptrinhoop.service.ICategoryService;
 import com.laptrinhoop.service.ICookieService;
+import com.laptrinhoop.service.IHttpService;
+import com.laptrinhoop.service.IMailService;
 import com.laptrinhoop.service.IProductService;
 
 @Controller
@@ -30,6 +32,12 @@ public class ProductController {
 
 	@Autowired
 	private ICookieService cookieService;
+
+	@Autowired
+	private IMailService mailService;
+
+	@Autowired
+	private IHttpService httpService;
 
 	@RequestMapping("/product/list-by-category/{cId}")
 	public String listByCategory(@PathVariable("cId") Integer id, Model model) {
@@ -54,9 +62,11 @@ public class ProductController {
 		List<Product> listDaXem = serviceProduct.getViewProduct("daXem", id.toString());
 		model.addAttribute("daXem", listDaXem);
 
-		// chức năng yêu thích
-		List<Product> listFaVo = serviceProduct.getFaVoProduct("like", id.toString());
-		model.addAttribute("like", listFaVo);
+		/*
+		 * // chức năng yêu thích List<Product> listFaVo =
+		 * serviceProduct.getFaVoProduct("like", id.toString());
+		 * model.addAttribute("like", listFaVo);
+		 */
 
 		// Single detai chi tiet san pham
 		Product p = serviceProduct.findById(id);
@@ -88,5 +98,14 @@ public class ProductController {
 		return "product/list";
 	}
 
+	@ResponseBody
+	@RequestMapping("/product/send-friend")
+	public String sendFriend(@RequestParam("id") Integer id, @RequestParam("from") String from,
+			@RequestParam("to") String to, @RequestParam("subject") String subject, @RequestParam("body") String body) {
+		// lấy đc địa chỉ url đang gọi là /product/send-friend-> replace lại để mapping tới /product/detail/{id}
+		String url = httpService.getCurrentUrl().replace("send-friend", "detail/" + id); 			
+		mailService.send(to, subject, body + "<hr/><a href='" + url +"'>Xem chi tiết</a>");
+		return "Đã gửi thông tin thành công";
+	}
 
 }

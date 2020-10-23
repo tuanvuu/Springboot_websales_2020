@@ -12,4 +12,5 @@
 
 <link rel="stylesheet" href="/static/css/websales.css">
 <script src="/static/js/websales.js"></script>
+<script src="/static/js/cart.js"></script>
 

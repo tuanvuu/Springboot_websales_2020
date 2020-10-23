@@ -69,7 +69,7 @@ public class GeneraDAO<L, K> implements IGeneralDAO<L, K> {
 	}
 
 	@Override
-	public <E> List<E> getResultList(String hql, Object... mangParam) {			
+	public <E> List<E> getResultList(String hql, Object...mangParam) {			
 		return this.getResultPageOrPagram(hql,0,0,mangParam);
 	}
 	

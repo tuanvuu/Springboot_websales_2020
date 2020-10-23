@@ -1,7 +1,7 @@
 <%@ page pageEncoding="utf-8"%>
 <%@ include file="/common/taglib.jsp"%>
 
-<div class="row">
+<div class="row" id="${prod.id}">
 	<div class="col-sm-5 text-center">
 		<img class="detail-img" src="/static/images/products/${prod.image}">
 	</div>
@@ -21,6 +21,9 @@
 			<li>View Count: ${prod.viewCount}</li>
 			<li>Available: ${prod.available?'Yes':'No'}</li>
 		</ul>
+		<div class="row">
+			<%@include file="btn-prod.jsp"%>
+		</div>
 	</div>
 </div>
 
@@ -44,11 +47,11 @@
 	</div>
 	<div id="tab2" class="tab-pane fade">
 		<div>
-			<c:forEach var="p" items="${like}">
+			<%-- <c:forEach var="p" items="${like}">
 				<a href="/product/detail/${p.id}"> <img class="thumb-img"
 					src="/static/images/products/${p.image}">
 				</a>
-			</c:forEach>
+			</c:forEach> --%>
 		</div>
 	</div>
 	<div id="tab3" class="tab-pane fade">
@@ -61,4 +64,5 @@
 		</div>
 	</div>
 </div>
+<%@include file="dialog.jsp"%>
 

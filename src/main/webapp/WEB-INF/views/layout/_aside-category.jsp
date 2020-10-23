@@ -13,3 +13,8 @@
 		</c:forEach>
 	</div>
 </div>
+<style id="cart-effect">
+.cart-fly {
+	background-color: yellow;
+}
+</style>
