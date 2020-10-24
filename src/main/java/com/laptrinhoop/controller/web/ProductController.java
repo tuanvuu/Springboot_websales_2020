@@ -87,7 +87,7 @@ public class ProductController {
 		if (!ids.contains(id)) {
 			ids += "," + id;
 		}
-		cookieService.create("like", ids, 15);
+		cookieService.createCookie("like", ids, 15);
 		return ids.split(",");
 	}
 

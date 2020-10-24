@@ -45,7 +45,7 @@ public class ProductService implements IProductService {
 		if (!ids.contains(id.toString())) { // chưa có trong cookie
 			ids += "," + id.toString();
 		}
-		cookieService.create(name, ids, 15);	
+		cookieService.createCookie(name, ids, 15);	
 		return dao.findByIdsInCookie(ids);  //thêm cookie xong gọi dao để truy vấn lấy danh sách
 	}
 

@@ -8,20 +8,27 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Customers")
 public class Customer {
+	@NotBlank
 	@Id
 	@Column(name = "id")
 	String id;
 
+	@NotBlank
 	@Column(name = "password")
 	String password;
 
+	@NotBlank
 	@Column(name = "fullname")
 	String fullname;
-
+	
+	@NotBlank
+	@Email
 	@Column(name = "email")
 	String email;
 
@@ -29,10 +36,10 @@ public class Customer {
 	String photo = "user.png";
 
 	@Column(name = "activated")
-	boolean activated;
+	boolean activated = false;
 
 	@Column(name = "admin")
-	boolean admin;
+	boolean admin = false;
 
 	@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
 	List<Order> orders;

@@ -20,7 +20,7 @@ public class CookieService implements ICookieService {
 	HttpServletResponse response;
 
 	@Override
-	public Cookie create(String name, String value, int day) {
+	public Cookie createCookie(String name, String value, int day) {
 		String enCode = Base64.getEncoder().encodeToString(value.getBytes()); // đổi sang mảng byte giá trị đã đc mã hóa
 		Cookie cookie = new Cookie(name, enCode);
 		cookie.setMaxAge(day * 24 * 60 * 60); // đặt thời gian tồn tại ( tính theo giây)
@@ -66,8 +66,8 @@ public class CookieService implements ICookieService {
 	}
 
 	@Override
-	public void delete(String name) {
-		this.create(name, "", 0);
+	public void deleteCookie(String name) {
+		this.createCookie(name, "", 0);
 
 	}
 
