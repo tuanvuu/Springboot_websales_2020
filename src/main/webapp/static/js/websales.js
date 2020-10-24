@@ -37,19 +37,20 @@ $(function() {
 			subject : $("#send-dialog #subject").val(),
 			body : $("#send-dialog #body").val()
 		}
-		$("#sending").show(); 		
+		$("#sending").show();
 		// console.log(data)
 		// gửi lên server
 		$.ajax({
 			url : "/product/send-friend",
-			data: data,
-			type:"POST",	
+			data : data,
+			type : "POST",
 			success : function(res) {
-				$("#sending").hide(); 
+				$("#sending").hide();
 				$("#send-dialog").modal("hide");
 			}
 		})
 
-	})
+	});
+
 
 })

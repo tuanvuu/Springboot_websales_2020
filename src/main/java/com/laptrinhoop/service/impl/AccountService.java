@@ -14,10 +14,10 @@ public class AccountService implements IAccountService {
 
 	@Autowired
 	private ICustomerDAO dao;
-	
+
 	@Autowired
 	private IHttpService http;
-	
+
 	@Autowired
 	private IMailService mailer;
 
@@ -29,6 +29,11 @@ public class AccountService implements IAccountService {
 	@Override
 	public Customer createUser(Customer user) {
 		return dao.create(user);
+	}
+
+	@Override
+	public void updateUser(Customer user) {
+		dao.update(user);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +27,7 @@ public class AccountController {
 
 	@Autowired
 	private IAccountService accountSerive;
-	
+
 	@Autowired
 	private ICustomerDAO customerDAO;
 
@@ -65,8 +66,21 @@ public class AccountController {
 			} else {
 				cookieService.deleteCookie("user");
 			}
+			// -- kiểm tra trong addtribute có địa chỉ đã lưu hay chưa
+			String securityUri = http.getSession("security-uri");
+			if(securityUri != null) // trc đó có truy cập
+			{
+				return "redirect:"+ securityUri;
+			}
+			
 		}
 		return "account/login";
+	}
+
+	@RequestMapping("/account/logoff")
+	public String logoff(Model model) {
+		http.removeSession("user");
+		return "redirect:/home/index";
 	}
 
 	@GetMapping("/account/forgot")
@@ -128,13 +142,66 @@ public class AccountController {
 		}
 		return "account/register";
 	}
+
 	@GetMapping("/account/activate/{id}")
 	public String activate(Model model, @PathVariable("id") String id) {
 		Customer user = accountSerive.findById(http.decode(id));
 		user.setActivated(true);
-		customerDAO.update(user);	
+		customerDAO.update(user);
 		model.addAttribute("message", "Tài khoản đã được kích hoạt");
 		return "redirect:/account/login?message=" + model.getAttribute("message");
+	}
+
+	@GetMapping("/account/change")
+	public String changForm() {
+		return "account/change";
+	}
+
+	@PostMapping("/account/change")
+	public String change(Model model, @RequestParam("username") String username,
+			@RequestParam("password") String password, @RequestParam("newPassword") String newPassword,
+			@RequestParam("confirm") String confirm) {
+
+		if (!newPassword.equals(confirm)) {
+			model.addAttribute("message", "Xác nhận mật khẩu không chính xác");
+		} else {
+			Customer user = accountSerive.findById(username);
+			if (user == null) {
+				model.addAttribute("message", "Sai tên đăng nhập");
+			} else if (!password.equals(user.getPassword())) {
+				model.addAttribute("message", "Sai mật khẩu");
+			} else {
+				user.setPassword(newPassword);
+				accountSerive.updateUser(user);
+				model.addAttribute("message", "Thay đổi mật khẩu thành công");
+				return "redirect:/account/login?message=" + model.getAttribute("message");
+			}
+		}
+		return "account/change";
+	}
+
+	@GetMapping("/account/edit")
+	public String editForm(Model model) {
+		Customer user = http.getSession("user");
+		model.addAttribute("user", user);
+		return "account/edit";
+	}
+
+	@PostMapping("/account/edit")
+	public String edit(Model model, @RequestParam("photo_file") MultipartFile file,
+			@Validated @ModelAttribute("user") Customer form, BindingResult errors) {
+		if (errors.hasErrors()) {
+			model.addAttribute("message", "Vui lòng không bỏ trống bên dưới!");
+		} else {
+			File photo = http.saveCustomerPhoto(file);
+			if (photo != null) {
+				form.setPhoto(photo.getName());
+			}
+			accountSerive.updateUser(form);
+			http.setSession("user", form);
+			model.addAttribute("message", "Đã cập nhật thông tin cá nhân!");
+		}
+		return "account/edit";
 	}
 
 }
