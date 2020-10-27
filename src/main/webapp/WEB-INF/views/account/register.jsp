@@ -17,7 +17,7 @@
 			</div>
 			<div class="form-group">
 				<label>Mật khẩu</label>
-				<form:input path="password" class="form-control" />
+				<form:input path="password" class="form-control" type="password"/>
 				<form:errors path="password"></form:errors>
 			</div>
 			<div class="form-group">
