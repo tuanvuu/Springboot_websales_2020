@@ -16,7 +16,7 @@
 			</div>
 			<div class="form-group">
 				<label>
-					<input name="remember" type="checkbox" value="true" >
+					<input name="remember" type="checkbox" value="true" ${empty username ? '' : 'checked'}>
 					Ghi nhớ tài khoản ?
 				</label>
 			</div>	

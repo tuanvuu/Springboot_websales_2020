@@ -62,11 +62,9 @@ public class ProductController {
 		List<Product> listDaXem = serviceProduct.getViewProduct("daXem", id.toString());
 		model.addAttribute("daXem", listDaXem);
 
-		/*
-		 * // chức năng yêu thích List<Product> listFaVo =
-		 * serviceProduct.getFaVoProduct("like", id.toString());
-		 * model.addAttribute("like", listFaVo);
-		 */
+		// chức năng yêu thích List<Product> listFaVo =
+		List<Product> listFaVo = serviceProduct.getFaVoProduct("like", id.toString());
+		model.addAttribute("like", listFaVo);
 
 		// Single detai chi tiet san pham
 		Product p = serviceProduct.findById(id);
@@ -82,10 +80,10 @@ public class ProductController {
 
 	@ResponseBody
 	@RequestMapping("/product/favorite/{id}")
-	public String[] favorite(@PathVariable("id") String id) {
-		String ids = cookieService.getCookieValue("like", id);
-		if (!ids.contains(id)) {
-			ids += "," + id;
+	public String[] favorite(@PathVariable("id") Integer id) {
+		String ids = cookieService.getCookieValue("like", id.toString());
+		if (!ids.contains(id.toString())) {
+			ids += "," + id.toString();
 		}
 		cookieService.createCookie("like", ids, 15);
 		return ids.split(",");
@@ -102,9 +100,10 @@ public class ProductController {
 	@RequestMapping("/product/send-friend")
 	public String sendFriend(@RequestParam("id") Integer id, @RequestParam("from") String from,
 			@RequestParam("to") String to, @RequestParam("subject") String subject, @RequestParam("body") String body) {
-		// lấy đc địa chỉ url đang gọi là /product/send-friend-> replace lại để mapping tới /product/detail/{id}
-		String url = httpService.getCurrentUrl().replace("send-friend", "detail/" + id); 			
-		mailService.send(to, subject, body + "<hr/><a href='" + url +"'>Xem chi tiết</a>");
+		// lấy đc địa chỉ url đang gọi là /product/send-friend-> replace lại để mapping
+		// tới /product/detail/{id}
+		String url = httpService.getCurrentUrl().replace("send-friend", "detail/" + id);
+		mailService.send(to, subject, body + "<hr/><a href='" + url + "'>Xem chi tiết</a>");
 		return "Đã gửi thông tin thành công";
 	}
 

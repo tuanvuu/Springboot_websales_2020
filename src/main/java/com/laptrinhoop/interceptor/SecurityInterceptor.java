@@ -15,6 +15,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 	@Autowired
 	private IHttpService http;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -23,7 +24,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 
 		if (user == null) {
 			http.setSession("security-uri", url); // đưa vào attribute
-			response.sendRedirect("/account/login?message=Bạn không có quyền !");
+			response.sendRedirect("/account/login?message="+ java.net.URLEncoder.encode("Bạn cần phải đăng nhập trước khi sử dụng chức năng"));
 			return false;
 		}
 		return true;

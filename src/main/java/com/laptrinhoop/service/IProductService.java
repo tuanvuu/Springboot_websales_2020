@@ -8,6 +8,7 @@ public interface IProductService {
 	List<Product> findByKeywords(String keyWords);
 	Product findById(Integer id);
 	List<Product> findAllProductByCategory(int id);
+	List<Product> findAllProduct();
 	List<Product> findByHot(String key);
 	List<Product>  getViewProduct(String name,String id); //  get những sản phẩm da xem thông qua mảng id sp trong Cookie
 	List<Product>  getFaVoProduct(String name,String id); // get những sản phẩm yêu thích thông qua mảng id sp trong Cookie
