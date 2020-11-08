@@ -13,25 +13,15 @@ import com.laptrinhoop.entity.Product;
 import com.laptrinhoop.service.ICategoryService;
 
 @Service
-public class CategoryService implements ICategoryService {
+public class CategoryService extends GeneralService<Category, Integer> implements ICategoryService {
 
 	@Autowired
 	private ICategoryDAO dao;
 
 	@Override
-	public List<Category> findAll() {
-		return dao.findAll();
-	}
-
-	@Override
-	public Category findById(Integer id) {
-		return dao.findById(id);
-	}
-
-	@Override
 	public List<Category> getRamDomByCategory() {
 		String hql = "FROM Category c WHERE size(c.products) >=4 ";
-		
+
 		List<Category> list = dao.getResultList(hql);
 		Collections.shuffle(list);
 		List<Category> result = new ArrayList<Category>();

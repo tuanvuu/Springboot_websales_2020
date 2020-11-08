@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,10 +28,20 @@ public class Order {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	Date orderDate = new Date();
 
+	@NotEmpty(message = "Vui lòng nhập địa chỉ")
 	String address;
 	Double amount;
 	String description;
+	Integer status;
 	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "customerId")
 	Customer customer;

@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Customers")
@@ -23,7 +24,7 @@ public class Customer {
 	@Column(name = "password")
 	String password;
 
-	@NotBlank
+	@NotEmpty(message = "Vui lòng nhập tên khách hàng")
 	@Column(name = "fullname")
 	String fullname;
 	

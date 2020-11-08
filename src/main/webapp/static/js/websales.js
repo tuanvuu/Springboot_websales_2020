@@ -18,6 +18,18 @@ $(function() {
 		var id = $(this).parents("[data-id]").attr("data-id")
 		$("#send-dialog").modal("show");
 	})
+	
+	 /* $(".btn-change-order").click(function() {
+		var id = $(this).parents("[data-id]").attr("data-id");
+		// bỏ id sp vừa lấy đc bỏ vào input id sp
+		$("#send-dialog #id").val(id);
+		$(".nn-sending").hide();
+
+		var id = $(this).parents("[data-id]").attr("data-id")
+		$("#send-dialog").modal("show");
+	})*/
+	
+	
 	// chức năng thẻ btn gửi thông tin sản phẩm to friend
 	$(".btn-send-To-Friend").click(function() {
 		/*

@@ -9,6 +9,8 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 
 @Configuration
 public class TilesConfig {
+	
+	
 	@Bean("viewResolver")
 	public ViewResolver getViewResolver() {
 		UrlBasedViewResolver resolver = new UrlBasedViewResolver();
@@ -19,7 +21,7 @@ public class TilesConfig {
 	@Bean("tilesConfigurer")
 	public TilesConfigurer getTilesConfigurer() {
 		TilesConfigurer configurer = new TilesConfigurer();
-		configurer.setDefinitions("/WEB-INF/web.xml");
+		configurer.setDefinitions("/WEB-INF/web.xml","/WEB-INF/admin-web.xml");
 		return configurer;
 	}
 

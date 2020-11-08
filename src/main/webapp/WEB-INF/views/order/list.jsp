@@ -1,36 +1,34 @@
 <%@ page pageEncoding="utf-8"%>
 <%@ include file="/common/taglib.jsp"%>
 
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h4 class="panel-title">ĐƠN HÀNG ĐÃ MUA</h4>
+
+<ul class="nav nav-tabs">
+	<li class="active"><a data-toggle="tab" href="#tatca">Tất cả</a></li>
+	<li><a data-toggle="tab" href="#xacnhan">Chờ xác nhận</a></li>
+	<li><a data-toggle="tab" href="#danggiao">Đang giao</a></li>
+	<li><a data-toggle="tab" href="#danhan">Đã giao</a></li>
+	<li><a data-toggle="tab" href="#dahuy">Đã hủy</a></li>
+</ul>
+
+<div class="tab-content">
+	<div id="tatca" class="tab-pane fade in active">
+		<jsp:include page="_all-list.jsp" />
 	</div>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Mã đơn hàng</th>
-				<th>Ngày đặt hàng</th>
-				<th>Địa chỉ</th>
-				<th>Tổng giá</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="o" items="${orders}">
-				<tr>
-					<td>#${o.id}</td>
-					<td><f:formatDate value="${o.orderDate}"
-							pattern="hh:mm a, dd-MM-yyyy" /></td>
-					<td>${o.address}</td>
-					<td>$<f:formatNumber value="${o.amount}" pattern="#,###.00" />
-					</td>
-					<td><a href="/order/detail/${o.id}"
-						class="btn btn-sm btn-warning"> <span
-							class="glyphicon glyphicon-search"></span>
-					</a></td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<div class="panel-footer"></div>
+	<div id="xacnhan" class="tab-pane fade">
+		<jsp:include page="_wait-list.jsp" />
+	</div>
+	<div id="danggiao" class="tab-pane fade">
+		<h3>Menu 2</h3>
+		<p>Some content in menu 2.</p>
+	</div>
+	<div id="dagiao" class="tab-pane fade">
+		<h3>Menu 2</h3>
+		<p>Some content in menu 2.</p>
+	</div>
+	<div id="dahuy" class="tab-pane fade">
+		<h3>Menu 2</h3>
+		<p>Some content in menu 2.</p>
+	</div>
 </div>
+
+

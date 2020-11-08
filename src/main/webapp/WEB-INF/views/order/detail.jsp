@@ -44,4 +44,8 @@
 		<jsp:include page="_detail-order.jsp" />
 	</div>
 </form:form>
-
+<script type="text/javascript">
+//<![CDATA[
+        bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+  //]]>
+  </script>

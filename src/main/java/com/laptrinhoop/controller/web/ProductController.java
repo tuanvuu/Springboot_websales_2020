@@ -45,7 +45,6 @@ public class ProductController {
 		List<Product> listProduct = category.getProducts();
 		model.addAttribute("list", listProduct);
 		return "product/list";
-
 	}
 
 	@RequestMapping("/product/list-by-keywords")
@@ -53,29 +52,22 @@ public class ProductController {
 		List<Product> listP = serviceProduct.findByKeywords(keywords);
 		model.addAttribute("list", listP);
 		return "product/list";
-
 	}
 
 	@RequestMapping("/product/detail/{id}")
-	public String detail(@PathVariable("id") Integer id, Model model) {
-		// chức năng đã xem
-		List<Product> listDaXem = serviceProduct.getViewProduct("daXem", id.toString());
-		model.addAttribute("daXem", listDaXem);
-
-		// chức năng yêu thích List<Product> listFaVo =
-		List<Product> listFaVo = serviceProduct.getFaVoProduct("like", id.toString());
-		model.addAttribute("like", listFaVo);
-
-		// Single detai chi tiet san pham
+	public String detail(@PathVariable("id") Integer id, Model model) {    
 		Product p = serviceProduct.findById(id);
-		p.setViewCount(p.getViewCount() + 1); // set so lượt xem
+		p.setViewCount(p.getViewCount() + 1); 
 		dao.update(p);
 		model.addAttribute("prod", p);
-
-		// list sp cùng loại
-		model.addAttribute("list", serviceProduct.findAllProductByCategory(p.getCategory().getId()));
+		List<Product> listDaXem = serviceProduct.getViewProduct("daXem", id.toString());
+		model.addAttribute("daXem", listDaXem);
+		String ids = cookieService.getCookieValue("like", "");
+		if (!ids.isEmpty()) {
+			List<Product> list = dao.findByIdsInCookie(ids);
+			model.addAttribute("like", list);
+		}
 		return "product/detail";
-
 	}
 
 	@ResponseBody
@@ -90,7 +82,8 @@ public class ProductController {
 	}
 
 	@RequestMapping("/product/list-by-hot/{key}")
-	public String listByHot(@PathVariable("key") String key, Model model) {
+	public String listByHot(@PathVariable("key") String key, Model model) 
+	{
 		List<Product> listP = serviceProduct.findByHot(key);
 		model.addAttribute("list", listP);
 		return "product/list";

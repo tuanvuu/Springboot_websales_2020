@@ -1,5 +1,7 @@
 package com.laptrinhoop.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,7 @@ import com.laptrinhoop.service.IHttpService;
 import com.laptrinhoop.service.IMailService;
 
 @Service
-public class AccountService implements IAccountService {
+public class AccountService extends GeneralService<Customer, String> implements IAccountService {
 
 	@Autowired
 	private ICustomerDAO dao;
@@ -27,11 +29,6 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public Customer createUser(Customer user) {
-		return dao.create(user);
-	}
-
-	@Override
 	public void updateUser(Customer user) {
 		dao.update(user);
 	}
@@ -43,6 +40,11 @@ public class AccountService implements IAccountService {
 		String url = http.getCurrentUrl().replace("register", "activate/" + http.encode(user.getId()));
 		String body = "<a href='" + url + "'>Click to activate your account!</a>";
 		return mailer.send(to, subject, body);
+	}
+
+	@Override
+	public List<Customer> findByRoles(boolean roles) {
+		return dao.findByRoles(roles);
 	}
 
 }

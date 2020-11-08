@@ -22,7 +22,6 @@ import com.laptrinhoop.service.IAccountService;
 import com.laptrinhoop.service.ICookieService;
 import com.laptrinhoop.service.IHttpService;
 import com.laptrinhoop.service.IMailService;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AccountController {
@@ -42,23 +41,17 @@ public class AccountController {
 	private IMailService mailerService;
 
 	@GetMapping("/account/login")
-	public String login(Model model,@ModelAttribute("message") String message) {
+	public String login(Model model) {
 		String[] userInfo = cookieService.getCookieValue("user", " , ").split(",");
-<<<<<<< HEAD
 		model.addAttribute("username", userInfo[0].trim());
 		model.addAttribute("password", userInfo[1].trim());
-=======
-		model.addAttribute("username", userInfo[0].replace(" ",""));
-		model.addAttribute("password", userInfo[1].replace(" ",""));
-		model.addAttribute("message", message);
->>>>>>> c71c9895a4ae6fcea7ee3f02c68a93d0ab70471a
 		return "account/login";
 	}
 
 	@PostMapping("/account/login")
 	public String login(Model model, @RequestParam("username") String username,
 			@RequestParam("password") String password,
-			@RequestParam(name = "remember", defaultValue = "false") boolean remember) {
+			@RequestParam(name = "remember", defaultValue = "false") boolean remember, RedirectAttributes attributes) {
 		Customer user = accountSerive.findById(username);
 		if (user == null) {
 			model.addAttribute("message", "Sai tên đăng nhập");
@@ -74,6 +67,11 @@ public class AccountController {
 			String securityUri = http.getSession("security-uri");
 			if (securityUri != null) // trc đó có truy cập
 			{
+				/*
+				 * if (user.isAdmin()) return "redirect:" + securityUri; else {
+				 * attributes.addFlashAttribute("message",
+				 * "Bạn không có quyền vào trang admin"); return "redirect:/account/login"; }
+				 */
 				return "redirect:" + securityUri;
 			}
 
@@ -94,12 +92,8 @@ public class AccountController {
 	}
 
 	@PostMapping("/account/forgot")
-<<<<<<< HEAD
 	public String forgot(Model model, @RequestParam("username") String username, @RequestParam("email") String email,
 			RedirectAttributes redirectAttributes) {
-=======
-	public String forgot(Model model, @RequestParam("username") String username, @RequestParam("email") String email,RedirectAttributes redirectAttributes) {
->>>>>>> c71c9895a4ae6fcea7ee3f02c68a93d0ab70471a
 		Customer user = accountSerive.findById(username);
 		if (user == null) {
 			model.addAttribute("message", "Sai tên đăng nhập");
@@ -125,12 +119,7 @@ public class AccountController {
 	@PostMapping("/account/register")
 	public String register(Model model, @RequestParam("photo_file") MultipartFile file,
 			@RequestParam("confirm") String confirm, @Validated @ModelAttribute("user") Customer form,
-<<<<<<< HEAD
 			BindingResult errors, RedirectAttributes redirectAttributes) {
-=======
-			RedirectAttributes redirectAttributes,
-			BindingResult errors) {
->>>>>>> c71c9895a4ae6fcea7ee3f02c68a93d0ab70471a
 		if (errors.hasErrors()) {
 			model.addAttribute("message", "Vui lòng không bỏ trống !");
 		} else if (!confirm.equals(form.getPassword())) {
@@ -148,32 +137,22 @@ public class AccountController {
 				} else {
 					form.setPhoto("user.png");
 				}
-				accountSerive.createUser(form);
+				accountSerive.add(form);
 				redirectAttributes.addFlashAttribute("message", "Kiểm tra email và kích hoạt tài khoản!");
-<<<<<<< HEAD
 				return "redirect:/account/login";
 
-=======
-
-				return "redirect:/account/login";
->>>>>>> c71c9895a4ae6fcea7ee3f02c68a93d0ab70471a
 			}
 		}
 		return "account/register";
 	}
 
 	@GetMapping("/account/activate/{id}")
-	public String activate(Model model, @PathVariable("id") String id,RedirectAttributes redirectAttributes) {
+	public String activate(Model model, @PathVariable("id") String id, RedirectAttributes redirectAttributes) {
 		Customer user = accountSerive.findById(http.decode(id));
 		user.setActivated(true);
 		customerDAO.update(user);
-<<<<<<< HEAD
-		redirectAttributes.addFlashAttribute("message","Tài khoản đã được kích hoạt");
-		return "redirect:/account/login" ;
-=======
 		redirectAttributes.addFlashAttribute("message", "Tài khoản đã được kích hoạt");
 		return "redirect:/account/login";
->>>>>>> c71c9895a4ae6fcea7ee3f02c68a93d0ab70471a
 	}
 
 	@GetMapping("/account/change")
@@ -184,11 +163,7 @@ public class AccountController {
 	@PostMapping("/account/change")
 	public String change(Model model, @RequestParam("username") String username,
 			@RequestParam("password") String password, @RequestParam("newPassword") String newPassword,
-<<<<<<< HEAD
 			@RequestParam("confirm") String confirm, RedirectAttributes redirectAttributes) {
-=======
-			@RequestParam("confirm") String confirm,RedirectAttributes redirectAttributes) {
->>>>>>> c71c9895a4ae6fcea7ee3f02c68a93d0ab70471a
 
 		if (!newPassword.equals(confirm)) {
 			model.addAttribute("message", "Xác nhận mật khẩu không chính xác");

@@ -22,7 +22,7 @@
 			</div>	
 		</div>
 		<div class="panel-footer text-right">
-		<div class="pull-left text-danger">${message}</div>
+		<div class="pull-left text-danger">${message}${param.message}</div>
 			<button class="btn btn-warning">
 				<span class="glyphicon glyphicon-user"></span> Đăng nhập
 			</button>	

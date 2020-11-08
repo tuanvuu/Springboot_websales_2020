@@ -2,7 +2,6 @@ package com.laptrinhoop.service.impl;
 
 import java.io.File;
 import java.util.Base64;
-import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -64,15 +63,15 @@ public class HttpService implements IHttpService {
 
 	@Override
 	public File saveCustomerPhoto(MultipartFile photo) {
-		return this.save(photo, "static/images/customers");
+		return this.save(photo, "/static/images/customers/");
 
 	}
 	
 	public File save(MultipartFile uploadfile, String folder) {
 		try {
 			if(!uploadfile.isEmpty()) {
-				String fname = uploadfile.getOriginalFilename();
-				fname = UUID.randomUUID().toString() + fname.substring(fname.lastIndexOf("."));
+				String fname = uploadfile.getOriginalFilename(); // lấy tên file từ file upload
+				//fname = UUID.randomUUID().toString() + fname.substring(fname.lastIndexOf("."));
 				File file = new File(application.getRealPath(folder), fname); 
 				uploadfile.transferTo(file);
 				return file;

@@ -11,7 +11,7 @@ import com.laptrinhoop.service.ICookieService;
 import com.laptrinhoop.service.IProductService;
 
 @Service
-public class ProductService implements IProductService {
+public class ProductService extends GeneralService<Product, Integer>implements IProductService {
 
 	@Autowired
 	private IProductDAO dao;
@@ -24,10 +24,6 @@ public class ProductService implements IProductService {
 		return dao.findByKeywords(keyWords);
 	}
 
-	@Override
-	public Product findById(Integer id) {
-		return dao.findById(id);
-	}
 
 	@Override
 	public List<Product> findAllProductByCategory(int id) {
@@ -59,10 +55,12 @@ public class ProductService implements IProductService {
 			return null;
 	}
 
-	@Override
-	public List<Product> findAllProduct() {
 
-		return dao.findAll();
+	@Override
+	public List<Product> findByIdsInCookie(String ids) {
+		return dao.findByIdsInCookie(ids);
 	}
+
+
 
 }

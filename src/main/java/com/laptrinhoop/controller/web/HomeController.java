@@ -53,7 +53,7 @@ public class HomeController {
 
 	@RequestMapping("/home/random")
 	public String random(Model model) {
-		List<Product> list = prodService.findAllProduct();
+		List<Product> list = prodService.findAll();
 		Collections.shuffle(list);
 		model.addAttribute("list", list.subList(0, 6));
 		return "non-layout/product/list";

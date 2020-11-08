@@ -37,12 +37,12 @@ public class OrderController {
 
 	@PostMapping("/order/checkout")
 	public String checkOut(Model model, @Validated @ModelAttribute("order") Order or, BindingResult err) {
-		orderService.addOrderAndOrderDetail(or, cartService);
 		if (err.hasErrors()) {
 			model.addAttribute("message", "Vui lòng không bỏ trống");
 			model.addAttribute("cart", cartService);
 			return "order/checkout";
 		}
+		orderService.addOrderAndOrderDetail(or, cartService);
 		cartService.clear();
 		return "redirect:/order/list";
 	}
@@ -63,7 +63,7 @@ public class OrderController {
 
 	@RequestMapping("/order/items")
 	public String getPurchasedItems(Model model) {
-		model.addAttribute("list", orderService.getPurchasedItems().values()); 
+		model.addAttribute("list", orderService.getPurchasedItems().values());
 		return "product/list";
 	}
 }

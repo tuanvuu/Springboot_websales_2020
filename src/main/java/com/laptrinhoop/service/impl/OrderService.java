@@ -18,7 +18,7 @@ import com.laptrinhoop.entity.Product;
 import com.laptrinhoop.service.IOrderSevice;
 
 @Service
-public class OrderService implements IOrderSevice {
+public class OrderService extends GeneralService<Order, Integer> implements IOrderSevice {
 
 	@Autowired
 	private CartService cart;
@@ -44,7 +44,7 @@ public class OrderService implements IOrderSevice {
 
 	@Override
 	public void addOrderAndOrderDetail(Order o, CartService cart) {
-
+		o.setStatus(1);
 		orderDAO.create(o);
 		Collection<Product> items = cart.getItemsCart();
 		items.forEach(p -> {

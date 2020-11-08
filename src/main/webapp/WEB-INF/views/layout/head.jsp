@@ -14,3 +14,4 @@
 <script src="/static/js/websales.js"></script>
 <script src="/static/js/cart.js"></script>
 
+ <script type="text/javascript" src="//js.nicedit.com/nicEdit-latest.js"></script>
