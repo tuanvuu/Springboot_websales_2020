@@ -48,20 +48,20 @@
 			<div class="row">
 				<div class="col-sm-6 text-left">
 					<div class="col-sm-3">
-						<label> <input type="checkbox" name="status" value="2" />Xác
+						<label> <input type="checkbox" name="status" value="2" id="xacNhanStatus" /> Xác
 							nhận
-						</label> 
-					</div>
-					<div class="col-sm-3">
-						<label> <input type="checkbox" name="status" value="3" />Đang giao
 						</label>
 					</div>
 					<div class="col-sm-3">
-						<label> <input type="checkbox" name="status" value="0" />Hoàn tất
+						<label> <input type="checkbox" name="status" value="3" id="dangGiaoStatus"/> Đang giao
 						</label>
 					</div>
 					<div class="col-sm-3">
-						<label> <input type="checkbox" name="status" value="4" />Đã hủy
+						<label> <input type="checkbox" name="status" value="0" id="hoanTatStatus" /> Hoàn tất
+						</label>
+					</div>
+					<div class="col-sm-3">
+						<label> <input type="checkbox" name="status" value="4"id="daHuyStatus" /> Đã hủy
 						</label>
 					</div>
 				</div>
@@ -104,6 +104,50 @@
 			$box.prop("checked", false);
 		}
 	});
+	let vStatus = ${order.status};
+	console.log("test",vStatus);
+	console.log("2",$("#dangGiaoStatus"));
+	if(vStatus==1){
+		$("#dangGiaoStatus").attr("disabled",true);
+		$("#hoanTatStatus").attr("disabled",true);
+	}
+	else if(vStatus==2){
+		$("#xacNhanStatus").attr("disabled",true);
+		$("#xacNhanStatus").attr("checked",true);
+
+		$("#hoanTatStatus").attr("disabled",true);
+		$("#daHuyStatus").attr("disabled",true);
+	}
+	else if(vStatus==3){
+		$("#xacNhanStatus").attr("disabled",true);
+		$("#xacNhanStatus").attr("checked",true);
+
+		$("#dangGiaoStatus").attr("disabled",true);
+        $("#dangGiaoStatus").attr("checked",true);
+
+		$("#daHuyStatus").attr("disabled",true);
+	}
+	else if(vStatus==4){
+		$("#xacNhanStatus").attr("disabled",true);
+
+		$("#dangGiaoStatus").attr("disabled",true);
+
+		$("#hoanTatStatus").attr("disabled",true);
+
+		$("#daHuyStatus").attr("checked",true);
+	}
+	else if(vStatus==0){
+        $("#xacNhanStatus").attr("disabled",true);
+        $("#xacNhanStatus").attr("checked",true);
+
+        $("#dangGiaoStatus").attr("disabled",true);
+        $("#dangGiaoStatus").attr("checked",true);
+
+        $("#hoanTatStatus").attr("disabled",true);
+        $("#hoanTatStatus").attr("checked",true);
+
+        $("#daHuyStatus").attr("disabled",true);
+    }
 </script>
 
 
