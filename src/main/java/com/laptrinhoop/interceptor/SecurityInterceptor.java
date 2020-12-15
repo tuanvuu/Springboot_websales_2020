@@ -29,6 +29,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 		// lấy ds cates đưa vào combobox
 		List<Category> list = cateService.findAll();
 		request.setAttribute("cates", list);
+		
 		Customer user = http.getSession("user");
 		String url = request.getRequestURI(); // lưu lại url user muốn truy cập
 
@@ -38,7 +39,6 @@ public class SecurityInterceptor implements HandlerInterceptor {
 					+ java.net.URLEncoder.encode("Bạn cần phải đăng nhập trước khi sử dụng chức năng"));
 			return false;
 		} else {
-
 			if (!user.isAdmin()) {
 				if (url.contains("/admin/")) {
 					response.sendRedirect("/account/login?message="

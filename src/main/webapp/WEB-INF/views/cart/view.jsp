@@ -24,8 +24,7 @@
 					<td>${p.name}</td>
 					<td>$<f:formatNumber value="${p.unitPrice}" pattern="#,###.00" />
 					</td>
-					<td><f:formatNumber value="${p.discount * 100}"
-							pattern="#,###.00" />%</td>
+					<td><f:formatNumber value="${p.discount}" type="percent"/></td>
 					<td><input value="${p.quantity}" type="number" min="1"
 						class="txt-cart-quantity" style="width: 100px"></td>
 					<td class="item-amt">$<f:formatNumber
@@ -45,5 +44,6 @@
 		<a href="${backurl}" class="btn btn-primary">Add More</a>
 		<button class="btn btn-danger btn-cart-clear">Clear</button>
 		<a href="/order/checkout" class="btn btn-success">Checkout</a>
+			<div class="pull-right text-danger">${message}</div>
 	</div>
 </div>

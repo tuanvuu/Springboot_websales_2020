@@ -12,7 +12,7 @@ import com.laptrinhoop.dao.IProductDAO;
 import com.laptrinhoop.entity.Product;
 import com.laptrinhoop.service.ICartService;
 
-@SessionScope
+@SessionScope 
 @Service("cart")
 public class CartService implements ICartService {
 
@@ -24,31 +24,22 @@ public class CartService implements ICartService {
 	@Override
 	public void addCart(Integer id) {
 		Product p = map.get(id);
-		if (p != null) { // đã có trong giỏ hàng
+		if (p != null) { 
 			p.setQuantity(p.getQuantity() + 1);
-		} else { // chưa có => lấy từ CSDL
+		} else { 
 			p = daoProduct.findById(id);
 			p.setQuantity(1);
 			map.put(id, p);
 		}
 	}
 
-	/**
-	 * Xóa sản phẩm khỏi giỏ
-	 * 
-	 * @param id mã sản phẩm cần xóa
-	 */
+
 	@Override
 	public void removeCart(Integer id) {
 		map.remove(id);
 	}
 
-	/**
-	 * Cập nhật số lượng sản phẩm trong giỏ
-	 * 
-	 * @param id  mã sản phẩm cần thay đổi số lượng
-	 * @param qty số lượng mới
-	 */
+
 	@Override
 	public void updateCart(Integer id, int qty) {
 		Product product = map.get(id);
@@ -60,9 +51,6 @@ public class CartService implements ICartService {
 		map.clear();
 	}
 
-	/**
-	 * Tính tổng số lượng
-	 */
 	@Override
 	public int getCountCart() {
 		Collection<Product> product = this.getItemsCart();
@@ -73,24 +61,17 @@ public class CartService implements ICartService {
 		return count;
 	}
 
-	/**
-	 * Tính tổng tiền
-	 */
 	@Override
 	public double getAmountCart() {
 		Collection<Product> ps = this.getItemsCart();
 		double amount = 0;
 		for (Product product : ps) {
-			amount += (product.getQuantity() * product.getUnitPrice() - (1 - product.getDiscount()));
+			amount += (product.getQuantity() * (product.getUnitPrice() - (product.getUnitPrice() * product.getDiscount())));
 		}
-
 		return amount;
 	}
 
-	/**
-	 * Lấy tập hợp các sản phẩm trong giỏ
-	 * @return Collection<Product> chứa các mặt hàng trong giỏ
-	 */
+
 	@Override
 	public Collection<Product> getItemsCart() {
 		return map.values();

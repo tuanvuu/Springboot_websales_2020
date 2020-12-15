@@ -103,4 +103,9 @@ public class HttpService implements IHttpService {
 		return new String(Base64.getDecoder().decode(encodedText));
 	}
 
+	@Override
+	public File saveProductPhoto(MultipartFile photo) {		
+		return this.save(photo, "/static/images/products/");
+	}
+
 }

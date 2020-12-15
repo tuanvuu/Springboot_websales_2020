@@ -33,7 +33,6 @@ public class Product {
 	Boolean available = true;
 	String description;
 	Integer viewCount = 0;
-	
 
 	public Integer getViewCount() {
 		return viewCount;
@@ -46,7 +45,6 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "categoryId")
 	Category category;
-
 
 	@OneToMany(mappedBy = "product")
 	List<OrderDetail> orderDetails;
@@ -138,4 +136,14 @@ public class Product {
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
+
+	public Product() {
+
+	}
+
+	public Product(Integer id) {
+		super();
+		this.id = id;
+	}
+
 }

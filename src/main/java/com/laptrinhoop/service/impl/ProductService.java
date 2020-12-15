@@ -38,19 +38,19 @@ public class ProductService extends GeneralService<Product, Integer>implements I
 	@Override
 	public List<Product> getViewProduct(String name, String id) {
 		String ids = cookieService.getCookieValue(name, id.toString());
-		if (!ids.contains(id.toString())) { // chưa có trong cookie
+		if (!ids.contains(id.toString())) { 
 			ids += "," + id.toString();
 		}
 		cookieService.createCookie(name, ids, 15);
-		return dao.findByIdsInCookie(ids); // thêm cookie xong gọi dao để truy vấn lấy danh sách
+		return dao.findByIdsInCookie(ids); 
 	}
 
 	@Override
 	public List<Product> getFaVoProduct(String name, String id) {
 		String favos = cookieService.getCookieValue(name, "");
-		if (favos.length() > 0) // có sản phẩm yêu thích
+		if (favos.length() > 0) 
 		{
-			return dao.findByIdsInCookie(favos); // truyền tham số lấy tất cả sản phẩm theo mảng id sản phẩm
+			return dao.findByIdsInCookie(favos); 
 		} else
 			return null;
 	}

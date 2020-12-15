@@ -7,6 +7,12 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
+
+
+/*
+ * - @Enable yêu cầu boot thêm các bean dựa vào cài đặt classpath, các bean khác và thuộc tính khác nhau
+ * 
+ * */
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { 
 		DataSourceAutoConfiguration.class,

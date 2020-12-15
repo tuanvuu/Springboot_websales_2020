@@ -24,5 +24,6 @@ public interface IHttpService {
 	String decode(String text);
 
 	File saveCustomerPhoto(MultipartFile photo);
+	File saveProductPhoto(MultipartFile photo);
 
 }

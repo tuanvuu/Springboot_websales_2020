@@ -18,14 +18,15 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity @Table(name="Orders")
+@Entity
+@Table(name = "Orders")
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	@DateTimeFormat(pattern = "MM/dd/yyyy HH:mm:ss" )
 	Date orderDate = new Date();
 
 	@NotEmpty(message = "Vui lòng nhập địa chỉ")
@@ -33,7 +34,17 @@ public class Order {
 	Double amount;
 	String description;
 	Integer status;
+	Integer phone;
 	
+
+	public Integer getPhone() {
+		return phone;
+	}
+
+	public void setPhone(Integer phone) {
+		this.phone = phone;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}
@@ -42,10 +53,10 @@ public class Order {
 		this.status = status;
 	}
 
+	
 	@ManyToOne
 	@JoinColumn(name = "customerId")
 	Customer customer;
-	
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
 	List<OrderDetail> orderDetails;
@@ -104,5 +115,9 @@ public class Order {
 
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+
+	public Order() {
+
 	}
 }

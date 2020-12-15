@@ -8,11 +8,11 @@
 		<div class="panel-body">
 			<div class="form-group">
 				<label>Tài khoản</label>
-				<input name="username" value="" class="form-control">
+				<input name="username" value="" class="form-control" required="required">
 			</div>
 			<div class="form-group">
 				<label>Địa chỉ email</label>
-				<input name="email" value="" class="form-control">
+				<input name="email" value="" class="form-control" required="required">
 			</div>
 		</div>
 		<div class="panel-footer">

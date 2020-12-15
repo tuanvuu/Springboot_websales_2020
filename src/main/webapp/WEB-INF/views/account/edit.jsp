@@ -29,7 +29,7 @@
 						<form:errors path="id" />
 					</div>
 					<div class="form-group">
-						<label>Mật khẩu</label>
+						<label>Họ tên</label>
 						<form:input path="fullname" class="form-control" />
 						<form:errors path="fullname" />
 					</div>

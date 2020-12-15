@@ -14,7 +14,7 @@ public class ProductDAO extends GeneraDAO<Product, Integer> implements IProductD
 	public List<Product> findByKeywords(String keywords) {
 		String hql = "FROM Product p WHERE p.name LIKE ?0 OR p.category.name " + "LIKE ?1 OR p.category.nameVN LIKE ?2";
 		String keyWords = "%" + keywords + "%";
-		return getResultListParam(hql, keyWords, keyWords, keyWords);
+		return getResultListParam(hql, keyWords, keyWords, keyWords);	
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class ProductDAO extends GeneraDAO<Product, Integer> implements IProductD
 		return getResultPageOrPagram(hql, 0, 12);
 	}
 
-	// lấy danh sách id sản phẩm với param là mảng id get từ client thông qua Cookie
+
 	@Override
 	public List<Product> findByIdsInCookie(String id) {
 		String hql = "From Product p Where p.id IN ("+ id +")"; 		

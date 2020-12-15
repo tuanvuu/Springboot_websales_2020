@@ -34,12 +34,6 @@ public interface IGeneralDAO<L, K> {
 	 * String hql = "FROM Product";
 	 * List&lt;Product&gt; list = getResultListPage(hql, 0, 0);
 	 * 
-	 * Truy vấn các sản phẩm trang số 3 (mỗi trang 8) có giá từ 5 đến 9.5
-	 * String hql = "FROM Product p WHERE p.unitPrice BETWEEN ? AND ?"
-	 * List&lt;Product&gt; list = getResultListPage(hql, 2, 8, 5.0, 9.5);
-	 * Truy vấn tên các sản phẩm trang số 3 (mỗi trang 8) có giá từ 5 đến 9.5
-	 * String hql = "SELECT p.name FROM Product p WHERE p.unitPrice BETWEEN ? AND ?";
-	 * List&lt;String&gt; list = getResultListPage(hql, 2, 8, 5.0, 9.5);
 	 */
 	<E> List<E> getResultPageOrPagram(String hql,int page,int size,Object...mangParam);
 	

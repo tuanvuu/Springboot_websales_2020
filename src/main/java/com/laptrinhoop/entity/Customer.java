@@ -15,20 +15,20 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @Table(name = "Customers")
 public class Customer {
-	@NotBlank
+	@NotEmpty(message = "Vui lòng nhập tài khoản")
 	@Id
 	@Column(name = "id")
 	String id;
 
-	@NotBlank
+	@NotEmpty(message = "Vui lòng nhập mật khẩu")
 	@Column(name = "password")
 	String password;
 
 	@NotEmpty(message = "Vui lòng nhập tên khách hàng")
 	@Column(name = "fullname")
 	String fullname;
-	
-	@NotBlank
+
+	@NotEmpty(message = "Vui lòng nhập email")
 	@Email
 	@Column(name = "email")
 	String email;
@@ -107,6 +107,15 @@ public class Customer {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	public Customer(@NotBlank String id) {
+		super();
+		this.id = id;
+	}
+
+	public Customer() {
+
 	}
 
 }

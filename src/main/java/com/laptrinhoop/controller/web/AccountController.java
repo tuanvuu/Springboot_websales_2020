@@ -51,30 +51,29 @@ public class AccountController {
 	@PostMapping("/account/login")
 	public String login(Model model, @RequestParam("username") String username,
 			@RequestParam("password") String password,
-			@RequestParam(name = "remember", defaultValue = "false") boolean remember, RedirectAttributes attributes) {
+			@RequestParam(name = "remember", defaultValue = "false") boolean remember) {
+		if ("".equals(username.trim())) {
+			model.addAttribute("message", "Tên đăng nhập không được để trống");
+			return "account/login";
+		} else if ("".equals(password.trim())) {
+			model.addAttribute("message", "Mật khẩu không được để trống");
+			return "account/login";
+		}
 		Customer user = accountSerive.findById(username);
-		if (user == null) {
-			model.addAttribute("message", "Sai tên đăng nhập");
-		} else if (!password.equals(user.getPassword())) {
-			model.addAttribute("message", "Sai mật khẩu");
+		if (user == null || !password.equals(user.getPassword())) {
+			model.addAttribute("message", "Sai tên đăng nhập hoặc mật khẩu");
 		} else if (!user.isActivated()) {
 			model.addAttribute("message", "Vui lòng vào mail kích hoạt tài khoản");
 		} else {
 			http.setSession("user", user);
 			model.addAttribute("message", "Đăng nhập thành công");
 			cookieService.createCookie("user", username + "," + password, remember ? 15 : 0);
-			// -- kiểm tra trong addtribute có địa chỉ đã lưu hay chưa
 			String securityUri = http.getSession("security-uri");
-			if (securityUri != null) // trc đó có truy cập
+			if (securityUri != null) 
 			{
-				/*
-				 * if (user.isAdmin()) return "redirect:" + securityUri; else {
-				 * attributes.addFlashAttribute("message",
-				 * "Bạn không có quyền vào trang admin"); return "redirect:/account/login"; }
-				 */
 				return "redirect:" + securityUri;
-			}
-
+			} else
+				return "redirect:/home/index";
 		}
 		return "account/login";
 	}

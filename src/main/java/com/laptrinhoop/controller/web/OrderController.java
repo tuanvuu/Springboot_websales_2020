@@ -1,6 +1,7 @@
 package com.laptrinhoop.controller.web;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.laptrinhoop.entity.Order;
 import com.laptrinhoop.service.IOrderSevice;
+import com.laptrinhoop.service.IRabbitmqService;
 import com.laptrinhoop.service.impl.CartService;
 
 @Controller
@@ -26,31 +29,40 @@ public class OrderController {
 	@Autowired
 	private IOrderSevice orderService;
 
+	@Autowired
+	private IRabbitmqService rabbit;
+
 	@GetMapping("/order/checkout")
-	public String checkOut(Model model) {
+	public String checkOut(Model model,RedirectAttributes attributes) {
+		if (cartService.getCountCart() == 0) {
+			attributes.addFlashAttribute("message","Chưa có sản phẩm trong giỏ hàng");
+			return "redirect:/cart/view";
+		}
 		model.addAttribute("cart", cartService);
-		// new Order
 		Order order = orderService.createOrder();
 		model.addAttribute("order", order);
 		return "order/checkout";
 	}
 
 	@PostMapping("/order/checkout")
-	public String checkOut(Model model, @Validated @ModelAttribute("order") Order or, BindingResult err) {
-		if (err.hasErrors()) {
-			model.addAttribute("message", "Vui lòng không bỏ trống");
-			model.addAttribute("cart", cartService);
-			return "order/checkout";
-		}
-		orderService.addOrderAndOrderDetail(or, cartService);
+	public String checkOut(Model model, @Validated @ModelAttribute("order") Order or) {
+		// orderService.addOrderAndOrderDetail(or, cartService);
+		rabbit.converToSendRabbit(or, cartService);
 		cartService.clear();
-		return "redirect:/order/list";
+		return "redirect:/home/index";
 	}
 
 	@RequestMapping("/order/list")
 	public String listOrder(Model model) {
 		List<Order> list = orderService.getAllOrderByUser();
 		model.addAttribute("orders", list);
+		model.addAttribute("ordersWaiting",(List<Order>) list.stream().filter(item -> item.getStatus() == 1).collect(Collectors.toList()));
+		model.addAttribute("ordersDelivery",
+				(List<Order>) list.stream().filter(item -> item.getStatus() == 2).collect(Collectors.toList()));
+		model.addAttribute("ordersDeliverted",
+				(List<Order>) list.stream().filter(item -> item.getStatus() == 3).collect(Collectors.toList()));
+		model.addAttribute("ordersCancel",
+				(List<Order>) list.stream().filter(item -> item.getStatus() == 4).collect(Collectors.toList()));
 		return "order/list";
 	}
 

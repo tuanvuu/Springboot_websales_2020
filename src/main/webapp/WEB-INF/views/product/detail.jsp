@@ -3,8 +3,6 @@
 <f:formatDate value="${prod.productDate}" pattern="dd-MM-yyyy"
 	var="date" />
 <f:formatNumber value="${prod.unitPrice}" pattern="#,###.00" var="price" />
-<f:formatNumber value="${prod.discount*100}" pattern="#,###.00"
-	var="discount" />
 <div class="panel panel-success nn-detail" data-id="${prod.id}">
 	<div class="panel-heading">
 		<h4 class="panel-title">THÔNG TIN CHI TIẾT SẢN PHẨM</h4>
@@ -16,7 +14,7 @@
 		<ul class="col-sm-7">
 			<li><strong>Name</strong>: <em>${prod.name}</em></li>
 			<li><strong>Unit Price</strong>: <em>${price}</em></li>
-			<li><strong>Discount</strong>: <em>${discount}%</em></li>
+			<li><strong>Discount</strong>: <em><f:formatNumber value="${prod.discount}" type="percent"/></em></li>
 			<li><strong>Quantity</strong>: <em>${prod.quantity}</em></li>
 			<li><strong>Product Date</strong>: <em>${date}</em></li>
 			<li><strong>Available</strong>: <em>${prod.available}</em></li>
@@ -29,6 +27,7 @@
 	</div>
 </div>
 <%@include file="dialog.jsp"%>
+<jsp:include page="_comment.jsp"/>
 
 <div class="nn-detail-relatives">
 	<!-- tab buttons -->

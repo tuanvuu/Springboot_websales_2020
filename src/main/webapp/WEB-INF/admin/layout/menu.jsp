@@ -47,7 +47,7 @@
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/admin/home/login">Sign In</a></li>
+						<li><a href="/admin/home/document">Create Document</a></li>
 						<li><a href="/admin/home/logoff">Sign Out</a></li>
 						<li><a href="/admin/home/change">Change Password</a></li>
 						<li class="divider"></li>

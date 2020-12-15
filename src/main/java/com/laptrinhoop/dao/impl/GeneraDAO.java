@@ -52,9 +52,6 @@ public class GeneraDAO<L, K> implements IGeneralDAO<L, K> {
 
 	@SuppressWarnings({ "unchecked" })
 	private Class<L> getEntityClass() {
-		// getClas là lớp hiện tại , sẽ lấy SupperClass ở mức tổng quát 
-		// nó sẽ cho ta một cái mảng với 2 kiểu trả về <thực thể,khóa>
-		// nó sẽ lấy phần tử đầu tiên trong mảng là thực thể
 		ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
 		return  (Class<L>) type.getActualTypeArguments()[0];
 	}

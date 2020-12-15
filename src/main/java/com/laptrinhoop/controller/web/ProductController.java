@@ -15,6 +15,7 @@ import com.laptrinhoop.entity.Category;
 import com.laptrinhoop.entity.Product;
 import com.laptrinhoop.service.ICategoryService;
 import com.laptrinhoop.service.ICookieService;
+import com.laptrinhoop.service.IElasticSearch;
 import com.laptrinhoop.service.IHttpService;
 import com.laptrinhoop.service.IMailService;
 import com.laptrinhoop.service.IProductService;
@@ -38,19 +39,22 @@ public class ProductController {
 
 	@Autowired
 	private IHttpService httpService;
+	
+	@Autowired
+	private IElasticSearch elastic;
 
 	@RequestMapping("/product/list-by-category/{cId}")
 	public String listByCategory(@PathVariable("cId") Integer id, Model model) {
 		Category category = service.findById(id);
-		List<Product> listProduct = category.getProducts();
-		model.addAttribute("list", listProduct);
+		//List<Product> listProduct = category.getProducts();
+		// lọc những sản phẩm theo loại từ server ElasticSearch
+		model.addAttribute("list", elastic.searchElasticProductByCate(category.getId()));
 		return "product/list";
 	}
 
 	@RequestMapping("/product/list-by-keywords")
 	public String listByKeyWords(@RequestParam("keywords") String keywords, Model model) {
-		List<Product> listP = serviceProduct.findByKeywords(keywords);
-		model.addAttribute("list", listP);
+		model.addAttribute("list", elastic.searchElastiProduct(keywords));
 		return "product/list";
 	}
 
@@ -93,8 +97,6 @@ public class ProductController {
 	@RequestMapping("/product/send-friend")
 	public String sendFriend(@RequestParam("id") Integer id, @RequestParam("from") String from,
 			@RequestParam("to") String to, @RequestParam("subject") String subject, @RequestParam("body") String body) {
-		// lấy đc địa chỉ url đang gọi là /product/send-friend-> replace lại để mapping
-		// tới /product/detail/{id}
 		String url = httpService.getCurrentUrl().replace("send-friend", "detail/" + id);
 		mailService.send(to, subject, body + "<hr/><a href='" + url + "'>Xem chi tiết</a>");
 		return "Đã gửi thông tin thành công";

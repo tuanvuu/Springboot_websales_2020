@@ -18,16 +18,13 @@
 		<jsp:include page="_wait-list.jsp" />
 	</div>
 	<div id="danggiao" class="tab-pane fade">
-		<h3>Menu 2</h3>
-		<p>Some content in menu 2.</p>
+		<jsp:include page="_delivery-list.jsp" />
 	</div>
-	<div id="dagiao" class="tab-pane fade">
-		<h3>Menu 2</h3>
-		<p>Some content in menu 2.</p>
+	<div id="danhan" class="tab-pane fade">
+		<jsp:include page="_deliverted-list.jsp" />
 	</div>
 	<div id="dahuy" class="tab-pane fade">
-		<h3>Menu 2</h3>
-		<p>Some content in menu 2.</p>
+		<jsp:include page="_cancel-list.jsp" />
 	</div>
 </div>
 

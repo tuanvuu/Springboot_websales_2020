@@ -17,6 +17,7 @@ public class MailService implements IMailService {
 	JavaMailSender sender;
 
 	/**
+	 * JavaMailSender interface con cua MailSender , hỗ trợ tin nhắn kiểu MiME
 	 * Gửi email
 	 * @param to      email người nhận
 	 * @param subject tiêu đề email
