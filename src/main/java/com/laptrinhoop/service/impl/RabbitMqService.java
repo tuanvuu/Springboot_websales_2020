@@ -40,7 +40,7 @@ public class RabbitMqService implements IRabbitmqService {
 			s.add(detail);
 		}
 		model.setOrderDetails(s);
-		producer.sendData(model);
+		//producer.sendData(model);
 	}
 
 }

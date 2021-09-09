@@ -19,45 +19,45 @@ import org.springframework.context.annotation.Bean;
 public class RabbitMQProducerConfig {
 	
 	
-	//Tạo một queue hàng đợi
-	@Value("${jsa.rabbitmq.queue}")
-	String queueName;
-
-	// tạo một topic trao đổi
-	@Value("${jsa.rabbitmq.exchange}")
-	String exchange;
-
-	
-	@Value("${jsa.rabbitmq.routingkey}")
-	private String routingkey;
-
-	@Bean
-	Queue queue() {
-		return new Queue(queueName, false);
-	}
-
-	@Bean
-	DirectExchange exchange() {
-		return new DirectExchange(exchange);
-	}
-/*
- * Đăng kí nhận mesage từ exchange này qua routing 
- * */
-	@Bean
-	Binding binding(Queue queue, DirectExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with(routingkey);
-	}
-
-	@Bean
-	public MessageConverter jsonMessageConverter() {
-		return new Jackson2JsonMessageConverter();
-	}
-
-	public AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-		final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-		rabbitTemplate.setMessageConverter(jsonMessageConverter());
-		return rabbitTemplate;
-	}
+//	//Tạo một queue hàng đợi
+//	@Value("${jsa.rabbitmq.queue}")
+//	String queueName;
+//
+//	// tạo một topic trao đổi
+//	@Value("${jsa.rabbitmq.exchange}")
+//	String exchange;
+//
+//
+//	@Value("${jsa.rabbitmq.routingkey}")
+//	private String routingkey;
+//
+//	@Bean
+//	Queue queue() {
+//		return new Queue(queueName, false);
+//	}
+//
+//	@Bean
+//	DirectExchange exchange() {
+//		return new DirectExchange(exchange);
+//	}
+///*
+// * Đăng kí nhận mesage từ exchange này qua routing
+// * */
+//	@Bean
+//	Binding binding(Queue queue, DirectExchange exchange) {
+//		return BindingBuilder.bind(queue).to(exchange).with(routingkey);
+//	}
+//
+//	@Bean
+//	public MessageConverter jsonMessageConverter() {
+//		return new Jackson2JsonMessageConverter();
+//	}
+//
+//	public AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+//		final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+//		rabbitTemplate.setMessageConverter(jsonMessageConverter());
+//		return rabbitTemplate;
+//	}
 
 //	@Bean
 //	public SimpleRabbitListenerContainerFactory jsaFactory(ConnectionFactory connectionFactory,

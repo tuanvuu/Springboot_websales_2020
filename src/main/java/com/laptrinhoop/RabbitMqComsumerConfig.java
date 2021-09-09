@@ -10,16 +10,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMqComsumerConfig {
-    @Bean
-    public MessageConverter jsonMessageConverter(){
-        return new Jackson2JsonMessageConverter();
-    }
-
-    @Bean
-    public SimpleRabbitListenerContainerFactory jsaFactory(ConnectionFactory connectionFactory,  SimpleRabbitListenerContainerFactoryConfigurer configurer) {  
-    	SimpleRabbitListenerContainerFactory factory =  new SimpleRabbitListenerContainerFactory();
-        configurer.configure(factory, connectionFactory);
-        factory.setMessageConverter(jsonMessageConverter());
-        return factory;
-    }
+//    @Bean
+//    public MessageConverter jsonMessageConverter(){
+//        return new Jackson2JsonMessageConverter();
+//    }
+//
+//    @Bean
+//    public SimpleRabbitListenerContainerFactory jsaFactory(ConnectionFactory connectionFactory,  SimpleRabbitListenerContainerFactoryConfigurer configurer) {
+//    	SimpleRabbitListenerContainerFactory factory =  new SimpleRabbitListenerContainerFactory();
+//        configurer.configure(factory, connectionFactory);
+//        factory.setMessageConverter(jsonMessageConverter());
+//        return factory;
+//    }
 }
